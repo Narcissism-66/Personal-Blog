@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SqlDialectMappings">
+    <file url="file://$PROJECT_DIR$/Test_end_01/src/main/java/com/example/test_end_01/mapper/BlogMapper.java" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/Test_end_01/src/main/java/com/example/test_end_01/mapper/FavouriteMapper.java" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/Test_end_01/src/main/java/com/example/test_end_01/mapper/LikeMapper.java" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/Test_end_01/src/main/java/com/example/test_end_01/mapper/LinkMapper.java" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/Test_end_01/src/main/java/com/example/test_end_01/mapper/NotificationMapper.java" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/Test_end_01/src/main/java/com/example/test_end_01/mapper/ReviewMapper.java" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/Test_end_01/src/main/java/com/example/test_end_01/mapper/UserMapper.java" dialect="GenericSQL" />
+  </component>
+</project>
