@@ -8,9 +8,17 @@ import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @RestController
@@ -107,5 +115,54 @@ public class UserController {
         int status = userService.updateOnlineById(userId, isOnline);
         if(status>0)return RestBean.success("更新成功！");
         else return RestBean.failure(503,"出现错误，请联系管理员~");
+    }
+
+    @Value("${file.upload-dir}") // 从配置文件中读取上传目录路径
+    private String uploadDir;
+
+    @PostMapping("/uploadImg")
+    public RestBean<String> uploadImage(@RequestParam("image") MultipartFile file) {
+        try {
+            // 检查文件是否为空
+            if (file.isEmpty()) {
+                return RestBean.failure(400, "上传的文件为空");
+            }
+
+            System.out.println("1");
+            // 创建上传目录（如果不存在）
+            File directory = new File(uploadDir);
+            if (!directory.exists()) {
+                if (!directory.mkdirs()) { // 创建目录
+                    return RestBean.failure(500, "无法创建上传目录");
+                }
+            }
+
+            System.out.println("2");
+            // 生成唯一的文件名
+            String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+            Path filePath = Paths.get(uploadDir, fileName);
+
+            // 将文件保存到服务器
+            Files.copy(file.getInputStream(), filePath);
+            System.out.println("3");
+
+            // 返回成功响应，包含文件的相对路径
+            String fileUrl = "uploads/" + fileName; // 相对路径
+            System.out.println("4");
+            return RestBean.success("文件上传成功", fileUrl);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("失败了");
+            return RestBean.failure(500, "文件上传失败：" + e.getMessage());
+        }
+    }
+    @PostMapping("/UpdateAvatar")
+    public RestBean<String> UpdateAvatar(HttpServletRequest request,
+                                         @RequestParam("avatar")String avatar)
+    {
+        Integer userId=(Integer) request.getAttribute("id");
+        int status=userService.UpdateAvatar(userId,avatar);
+        if(status!=0)return RestBean.success("cg");
+        else return RestBean.failure(503,"失败");
     }
 }

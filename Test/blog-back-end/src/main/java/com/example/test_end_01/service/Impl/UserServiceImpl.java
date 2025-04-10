@@ -83,5 +83,10 @@ public class UserServiceImpl implements UserService {
         return userMapper.updateOnlineById(userId, online);
     }
 
+    @Override
+    public int UpdateAvatar(Integer userId,String avatar) {
+        return userMapper.UpdateAvatar(userId,avatar);
+    }
+
 
 }

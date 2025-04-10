@@ -17,4 +17,5 @@ public interface UserService {
     int deleteUserById(int id);
     int updateRoleById(Integer userId,String role);
     int updateOnlineById(Integer userId,String online);
+    int UpdateAvatar(Integer userId,String avatar);
 }

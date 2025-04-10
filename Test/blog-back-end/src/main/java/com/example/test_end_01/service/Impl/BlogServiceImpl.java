@@ -204,4 +204,9 @@ public class BlogServiceImpl implements BlogService {
     public List<Blog> getBlogsOfAlgorithm() {
         return blogMapper.getBlogsOfAlgorithm();
     }
+
+    @Override
+    public Blog getBlogOfShare(int id) {
+        return blogMapper.getBlogById(id);
+    }
 }

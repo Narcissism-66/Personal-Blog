@@ -5,11 +5,20 @@ import com.example.test_end_01.entity.vo.BlogVo;
 import com.example.test_end_01.entity.vo.ReviewVo;
 import com.example.test_end_01.service.BlogService;
 import jakarta.annotation.Resource;
-import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.web.bind.annotation.*;
 
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/blog")
@@ -41,6 +50,11 @@ public class BlogController {
     public RestBean<BlogVo> getBlog(@RequestParam("id") int id,HttpServletRequest request){
         Integer userId = (Integer) request.getAttribute("id");
         return RestBean.success("成功！",blogService.getBlogById(id,userId));
+    }
+    @GetMapping ("/share")
+    public RestBean<Blog> getBlogOfShare(@RequestParam("id") int id){
+        System.out.println("blog--share");
+        return RestBean.success("成功！",blogService.getBlogOfShare(id));
     }
 
     @PostMapping("like")
@@ -191,4 +205,47 @@ public class BlogController {
     public RestBean<List<Blog>> getBlogsOfKnowledge(){
         return RestBean.success("获取成功！",blogService.getBlogsOfKnowledge());
     }
+
+    @Value("${file.upload-dir}") // 从配置文件中读取上传目录路径
+    private String uploadDir;
+
+    @PostMapping("/uploadImg")
+    public RestBean<String> uploadImage(@RequestParam("image") MultipartFile file) {
+        try {
+            // 检查文件是否为空
+            if (file.isEmpty()) {
+                return RestBean.failure(400, "上传的文件为空");
+            }
+
+            System.out.println("1");
+            // 创建上传目录（如果不存在）
+            File directory = new File(uploadDir);
+            if (!directory.exists()) {
+                if (!directory.mkdirs()) { // 创建目录
+                    return RestBean.failure(500, "无法创建上传目录");
+                }
+            }
+
+            System.out.println("2");
+            // 生成唯一的文件名
+            String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+            Path filePath = Paths.get(uploadDir, fileName);
+
+            // 将文件保存到服务器
+            Files.copy(file.getInputStream(), filePath);
+            System.out.println("3");
+
+            // 返回成功响应，包含文件的相对路径
+            String fileUrl = "uploads/" + fileName; // 相对路径
+            System.out.println("4");
+            return RestBean.success("文件上传成功", fileUrl);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("失败了");
+            return RestBean.failure(500, "文件上传失败：" + e.getMessage());
+        }
+    }
+
+
+
 }

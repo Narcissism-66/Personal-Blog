@@ -43,4 +43,8 @@ public interface UserMapper {
     @Update("UPDATE users SET IsOnline = #{online} WHERE id = #{userId}")
     int updateOnlineById(Integer userId, String online);
 
+    //更新头像
+    @Update("UPDATE users set avator=#{avator} WHERE id=#{userId}")
+    int UpdateAvatar(Integer userId,String avator);
+
 }

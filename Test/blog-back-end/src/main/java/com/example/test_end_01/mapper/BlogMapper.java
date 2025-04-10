@@ -24,7 +24,7 @@ public interface BlogMapper {
     Blog getBlogById(int id);
 
     //更新观看的数量
-    @Update("UPDATE blog SET watches=watches+1 WHERE id=#{id}")
+    @Update("UPDATE blog SET watches=watches+1, updateDate=updateDate WHERE id=#{id}")
     void updateWatchesById(int id);
 
     //减少点赞的数量

@@ -35,6 +35,10 @@ public class JWTFilter implements Filter {
             chain.doFilter(request, response); // 放行
             return;
         }
+        if (requestURI.startsWith("/api/blog/share")) {
+            chain.doFilter(request, response); // 放行
+            return;
+        }
         if ("OPTIONS".equals(request.getMethod())) {
             response.setStatus(HttpServletResponse.SC_OK);
             chain.doFilter(request, response);

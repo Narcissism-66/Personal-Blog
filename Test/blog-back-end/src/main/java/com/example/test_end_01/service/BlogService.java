@@ -36,4 +36,5 @@ public interface BlogService {
     List<Blog>getBlogsOfKnowledge();
     List<Blog>getBlogsOfProject();
     List<Blog>getBlogsOfAlgorithm();
+    Blog getBlogOfShare(int id);
 }
