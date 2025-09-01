@@ -38,10 +38,6 @@ const Qualification=()=>{
     <!-- 导航栏 -->
     <nav v-if="userStore.user" class="fixed left-0 top-0 h-full w-72 bg-gradient-to-br from-white/95 via-white/90 to-white/95 dark:from-gray-900/95 dark:via-gray-900/90 dark:to-gray-900/95 backdrop-blur-xl transform -translate-x-full group-hover:translate-x-0 transition-all duration-300 ease-in-out shadow-2xl">
       <div class="flex flex-col h-full">
-        <!-- 顶部Logo区域 -->
-        <div class="p-6 border-b border-gray-200/50 dark:border-gray-700/50">
-          <h2 class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">博客导航</h2>
-        </div>
 
         <!-- 导航按钮组 -->
         <div class="flex-1 py-6 px-4">
@@ -68,6 +64,16 @@ const Qualification=()=>{
                 </svg>
               </div>
               <span class="font-medium">标签</span>
+            </button>
+
+            <!-- 代码编辑器按钮 -->
+            <button class="w-full flex items-center gap-4 px-5 py-3.5 rounded-2xl text-gray-700 dark:text-gray-200 hover:bg-gradient-to-r hover:from-blue-500/10 hover:to-purple-500/10 dark:hover:from-blue-400/10 dark:hover:to-purple-400/10 transition-all duration-300 group/btn" @click="router.push('/code-editor')">
+              <div class="p-2 rounded-xl bg-green-500/10 dark:bg-green-400/10 group-hover/btn:bg-green-500/20 dark:group-hover/btn:bg-green-400/20 transition-all duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256" class="text-green-600 dark:text-green-400">
+                  <path fill="currentColor" d="M69.12 94.15L28.5 128l40.62 33.85a8 8 0 1 1-10.24 12.29l-48-40a8 8 0 0 1 0-12.29l48-40a8 8 0 0 1 10.24 12.3m176 27.7l-48-40a8 8 0 1 0-10.24 12.3L227.5 128l-40.62 33.85a8 8 0 1 0 10.24 12.29l48-40a8 8 0 0 0 0-12.29m-82.39-89.37a8 8 0 0 0-10.25 4.79l-64 176a8 8 0 0 0 4.79 10.26A8.1 8.1 0 0 0 96 224a8 8 0 0 0 7.52-5.27l64-176a8 8 0 0 0-4.79-10.25"/>
+                </svg>
+              </div>
+              <span class="font-medium">代码编辑器</span>
             </button>
           </div>
         </div>
@@ -125,7 +131,7 @@ nav {
 /* 主内容区域样式 */
 main {
   min-height: 100vh;
-  //padding: 1rem;
+  /* padding: 1rem; */
   background: transparent;
 }
 

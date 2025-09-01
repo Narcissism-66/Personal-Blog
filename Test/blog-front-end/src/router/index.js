@@ -109,13 +109,21 @@ const router = createRouter({
             title:'记笔记',
           },
           component:()=>import('../views/Common/Take-notes.vue')
-        },{
+        }        ,{
           name:"计划",
           path:"/plan",
           meta:{
             title:'计划',
           },
           component:()=>import('../views/Common/PlanList.vue')
+        },
+        {
+          name:"代码编辑器",
+          path:"/code-editor",
+          meta:{
+            title:'代码编辑器',
+          },
+          component:()=>import('../views/Common/CodeEditor.vue')
         }
       ]
     }

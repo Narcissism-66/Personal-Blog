@@ -26,7 +26,6 @@ const options=reactive({
   blogs:[],
   AuthorBlogs:[],
   SearchBlogs:[],
-  recommendBlogs:[],
 })
 const option_link=reactive({
   links:[]
@@ -73,12 +72,7 @@ watch(() => searchQuery.search, (newValue, oldValue) => {
   }
 });
 
-//推荐的Blog
-const getRecommendBlogs=()=>{
-  get('/api/blog/getBlogsOrderByWatches',{},(message,data)=>{
-    options.recommendBlogs=data;
-  })
-}
+
 const SuggestionBar=[{
   title:'火箭',
   ico:`<svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 64 64" class="size-7 text-pink-300">
@@ -141,7 +135,6 @@ onMounted(()=>{
   initDate();
   initLink();
   AuthorBlogs();
-  getRecommendBlogs();
 })
 
 </script>
@@ -157,7 +150,7 @@ onMounted(()=>{
             type="text"
             v-model="searchQuery.search"
             placeholder="搜索博客..."
-            class="search-input dark:bg-purple-200/10"
+            class="search-input border-white border-2 dark:bg-purple-200/10"
           />
           <button @click="search" class="search-button">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="search-icon">
@@ -172,7 +165,7 @@ onMounted(()=>{
         <div v-if="!IsSearch"
              v-for="blog in options.blogs"
              :key="'blog-'+blog.blog.id"
-             class="blog-card bg-white dark:bg-purple-200/10"
+             class="blog-card bg-white border-white border-2 dark:bg-purple-200/10 "
              @click="blogClickHandle(blog.blog.id)">
           <div class="blog-header">
             <div class="title-wrapper">
@@ -188,18 +181,18 @@ onMounted(()=>{
                 </svg>
               </div>
             </div>
-            <span class="blog-tag dark:bg-purple-500/20 dark:text-purple-400">{{blog.blog.tag}}</span>
+            <span class="blog-tag dark:bg-purple-500/20 rounded-xl p-2 dark:text-purple-400">{{blog.blog.tag}}</span>
           </div>
 
           <div class="blog-content" @click.stop>
-            <div class="blog-description dark:bg-purple-200/10 dark:text-gray-300"
+            <div class="blog-description  dark:text-gray-300"
                  :class="{ 'expanded': expandedCards.has(blog.blog.id) }">
               <template v-if="expandedCards.has(blog.blog.id)">
                 <div v-html="renderMarkdown(blog.blog.content)"></div>
               </template>
-              <template v-else>
-                <div>{{ generateDescription(blog.blog.title) }}</div>
-              </template>
+<!--              <template v-else>-->
+<!--                <div>{{ generateDescription(blog.blog.title) }}</div>-->
+<!--              </template>-->
             </div>
           </div>
 
@@ -261,33 +254,14 @@ onMounted(()=>{
       </div>
     </div>
 
-    <!-- 右侧推荐区域 -->
-    <div class="recommend-container dark:bg-purple-200/10">
-      <div class=" flex flex-nowrap mx-auto justify-center items-center p-2">
-        <h2 class="recommend-title dark:text-gray-200">精选推荐</h2>
-      </div>
 
-      <div class="recommend-list">
-        <div v-for="blog in options.recommendBlogs" 
-             :key="blog.id"
-             class="recommend-card bg-white dark:bg-purple-200/10"
-             @click="blogClickHandle(blog.id)">
-          <h3 class="recommend-card-title dark:text-gray-200">{{blog.title}}</h3>
-          <div class="recommend-card-meta">
-            <span class="recommend-card-tag dark:bg-purple-500/20 dark:text-purple-400">{{blog.tag}}</span>
-            <span class="recommend-card-date dark:text-gray-400">2024-03-21</span>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
 <style scoped>
 .main-container {
-  display: grid;
-  grid-template-columns: 1fr 350px;
-  gap: 2rem;
+  display: flex;
+  flex-direction: column;
   padding: 2rem;
   padding-left: calc(2rem + 250px);
   min-height: 100vh;
@@ -604,172 +578,12 @@ onMounted(()=>{
   transition: all 0.3s ease;
 }
 
-.recommend-container {
-  position: sticky;
-  top: 2rem;
-  height: calc(100vh - 4rem);
-  overflow-y: auto;
-  border-radius: 1.5rem;
-  padding: 2rem;
-  transition: all 0.3s ease;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(147, 51, 234, 0.3) transparent;
-}
 
-/* 自定义滚动条样式 */
-.recommend-container::-webkit-scrollbar {
-  width: 6px;
-}
-
-.recommend-container::-webkit-scrollbar-track {
-  background: transparent;
-  border-radius: 3px;
-}
-
-.recommend-container::-webkit-scrollbar-thumb {
-  background: rgba(147, 51, 234, 0.3);
-  border-radius: 3px;
-  transition: all 0.3s ease;
-}
-
-.recommend-container::-webkit-scrollbar-thumb:hover {
-  background: rgba(147, 51, 234, 0.5);
-}
-
-/* 暗色模式滚动条 */
-.dark .recommend-container::-webkit-scrollbar-thumb {
-  background: rgba(192, 132, 252, 0.3);
-}
-
-.dark .recommend-container::-webkit-scrollbar-thumb:hover {
-  background: rgba(192, 132, 252, 0.5);
-}
-
-.recommend-header {
-  position: relative;
-}
-
-.recommend-title {
-  font-size: 1.75rem;
-  font-weight: 700;
-  margin-bottom: 1.5rem;
-  position: relative;
-  display: inline-block;
-}
-
-.recommend-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-}
-
-.recommend-card {
-  border-radius: 1rem;
-  padding: 1.5rem;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.1);
-  background: linear-gradient(45deg, transparent 0%, transparent 100%);
-}
-
-.recommend-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(45deg, rgba(147, 51, 234, 0.05) 0%, rgba(192, 132, 252, 0.05) 100%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  z-index: -1;
-}
-
-.recommend-card:hover {
-  transform: translateX(5px) scale(1.02);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-}
-
-.recommend-card:hover::before {
-  opacity: 1;
-}
-
-.dark .recommend-card::before {
-  background: linear-gradient(45deg, rgba(192, 132, 252, 0.05) 0%, rgba(147, 51, 234, 0.05) 100%);
-}
-
-.recommend-card-title {
-  font-size: 1.125rem;
-  font-weight: 600;
-  margin-bottom: 1rem;
-  line-height: 1.4;
-  transition: all 0.3s ease;
-  position: relative;
-  padding-left: 1rem;
-  display: inline-block;
-}
-
-.recommend-card-title::after {
-  content: '';
-  position: absolute;
-  width: 0;
-  height: 2px;
-  bottom: -2px;
-  left: 0;
-  background: linear-gradient(90deg, rgba(147, 51, 234, 0.8), rgba(192, 132, 252, 0.8));
-  transition: width 0.3s ease;
-}
-
-.recommend-card:hover .recommend-card-title::after {
-  width: 100%;
-}
-
-.dark .recommend-card-title::after {
-  background: linear-gradient(90deg, rgba(192, 132, 252, 0.8), rgba(147, 51, 234, 0.8));
-}
-
-.recommend-card-meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 0.875rem;
-  margin-top: 0.75rem;
-
-}
-
-.recommend-card-tag {
-  padding: 0.25rem 0.75rem;
-  border-radius: 9999px;
-  font-weight: 500;
-  transition: all 0.3s ease;
-  background: linear-gradient(45deg, rgba(147, 51, 234, 0.1), rgba(192, 132, 252, 0.1));
-}
-
-.recommend-card:hover .recommend-card-tag {
-  transform: scale(1.05) rotate(2deg);
-  background: linear-gradient(45deg, rgba(147, 51, 234, 0.2), rgba(192, 132, 252, 0.2));
-}
-
-.dark .recommend-card-tag {
-  background: linear-gradient(45deg, rgba(192, 132, 252, 0.1), rgba(147, 51, 234, 0.1));
-}
-
-.dark .recommend-card:hover .recommend-card-tag {
-  background: linear-gradient(45deg, rgba(192, 132, 252, 0.2), rgba(147, 51, 234, 0.2));
-}
 
 /* 响应式布局 */
 @media (max-width: 1024px) {
   .main-container {
-    grid-template-columns: 1fr;
     padding-left: 2rem;
-  }
-  
-  .recommend-container {
-    position: static;
-    margin-top: 2rem;
   }
 }
 
@@ -777,10 +591,6 @@ onMounted(()=>{
   .main-container {
     padding: 1rem;
     padding-left: 1rem;
-  }
-  
-  .recommend-container {
-    padding: 1.5rem;
   }
 }
 </style>
