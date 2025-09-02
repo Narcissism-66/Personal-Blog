@@ -1,21 +1,12 @@
 <script setup>
-import mn from '@/assets/image/hh.jpg'
 import ThemeSwitch from "@/components/ThemeSwitch.vue";
-import {useThemeStore} from "@/stores/theme.js";
 import router from "@/router/index.js";
-import {useRoute} from "vue-router";
-import {get} from "@/net/index.js";
-import {onMounted, reactive, ref, watch} from "vue";
 import {message} from "ant-design-vue";
 import {userUserStore} from "@/stores/userStore.js";
 
 
 const [messageApi, contextHolder] = message.useMessage();
 const userStore=userUserStore();
-
-const themeStore=useThemeStore();
-
-
 
 const Qualification=()=>{
   if(userStore.user.role==="游客")
@@ -36,7 +27,7 @@ const Qualification=()=>{
   <!-- 触发区域 -->
   <div class="fixed left-0 top-0 h-full w-2 z-50 hover:w-72 group">
     <!-- 导航栏 -->
-    <nav v-if="userStore.user" class="fixed left-0 top-0 h-full w-72 bg-gradient-to-br from-white/95 via-white/90 to-white/95 dark:from-gray-900/95 dark:via-gray-900/90 dark:to-gray-900/95 backdrop-blur-xl transform -translate-x-full group-hover:translate-x-0 transition-all duration-300 ease-in-out shadow-2xl">
+    <nav  class="fixed left-0 top-0 h-full w-72 bg-gradient-to-br from-white/95 via-white/90 to-white/95 dark:from-gray-900/95 dark:via-gray-900/90 dark:to-gray-900/95 backdrop-blur-xl transform -translate-x-full group-hover:translate-x-0 transition-all duration-300 ease-in-out shadow-2xl">
       <div class="flex flex-col h-full">
 
         <!-- 导航按钮组 -->
@@ -79,7 +70,7 @@ const Qualification=()=>{
         </div>
 
         <!-- 底部用户信息和主题切换 -->
-        <div class="border-t border-gray-200/50 dark:border-gray-700/50">
+        <div v-if="userStore.user"  class="border-t border-gray-200/50 dark:border-gray-700/50">
           <div class="p-4">
             <div class="flex items-center gap-4 px-5 py-3.5 rounded-2xl hover:bg-gradient-to-r hover:from-blue-500/10 hover:to-purple-500/10 dark:hover:from-blue-400/10 dark:hover:to-purple-400/10 transition-all duration-300 cursor-pointer group/user" @click="Qualification()">
               <div class="relative">

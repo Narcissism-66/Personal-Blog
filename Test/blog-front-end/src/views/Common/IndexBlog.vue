@@ -3,6 +3,7 @@ import {onMounted, reactive, ref, watch} from "vue";
 import {get} from "@/net/index.js";
 import router from "@/router/index.js";
 import { marked } from 'marked';
+import {userUserStore} from "@/stores/userStore.js";
 const counts=ref(0);
 const expandedCards = ref(new Set());
 
@@ -47,7 +48,8 @@ const AuthorBlogs=()=>{
 }
 const showForm = ref(false);
 const blogClickHandle=(id)=>{
-  router.push("/view/"+id)
+  if(userUserStore().user==null)router.push('/share/'+id)
+  else router.push("/view/"+id)
 }
 
 //搜索
@@ -133,8 +135,8 @@ const generateDescription = (title) => {
 
 onMounted(()=>{
   initDate();
-  initLink();
-  AuthorBlogs();
+  // initLink();
+  // AuthorBlogs();
 })
 
 </script>

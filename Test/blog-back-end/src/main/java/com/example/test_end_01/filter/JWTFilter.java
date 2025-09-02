@@ -31,11 +31,15 @@ public class JWTFilter implements Filter {
         response.setCharacterEncoding("UTF-8");
         //获取 header里的token
         final String token = request.getHeader("authorization");
-        if (requestURI.startsWith("/api/auth")) {
+        if (requestURI.startsWith("/api/auth")||requestURI.startsWith("/api/code")) {
             chain.doFilter(request, response); // 放行
             return;
         }
-        if (requestURI.startsWith("/api/blog/share")) {
+        if (requestURI.startsWith("/api/blog/share")||requestURI.startsWith("/api/blog/getIntroduce")) {
+            chain.doFilter(request, response); // 放行
+            return;
+        }
+        if (requestURI.startsWith("/api/blog/getBlogsOrderByType")||requestURI.startsWith("/api/blog/Knowledge")||requestURI.startsWith("/api/blog/Algorithm")||requestURI.startsWith("/api/blog/Project")) {
             chain.doFilter(request, response); // 放行
             return;
         }

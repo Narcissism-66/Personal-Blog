@@ -19,10 +19,11 @@ spring:
 file:
   upload-dir: ./uploads # 上传目录路径
 
-# 代码执行配置
+# 代码执行相关配置
 code:
   execution:
-    timeout: 10000 # 代码执行超时时间（毫秒）
+    timeout: 5000 # 代码执行超时时间，单位毫秒
     tmp:
-      dir: ./code # 临时文件目录
-    clean-interval: 3600000 # 清理间隔（毫秒）
+      dir: ./code # 存放临时代码文件的目录
+    memory-limit: 128M # 内存限制
+    clean-interval: 3600000 # 定时清理临时文件的间隔，单位毫秒

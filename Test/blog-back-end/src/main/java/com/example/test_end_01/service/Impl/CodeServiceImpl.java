@@ -28,8 +28,8 @@ public class CodeServiceImpl implements CodeService {
     @Value("${code.execution.tmp.dir:./code}")
     private String tempDir; // 临时文件目录
 
-    @Value("${code.execution.clean-interval:12000}")
-    private long cleanInterval; // 清理间隔，默认1小时
+
+
     /**
      * @param code 用户提交的代码
      * @param input 用户提供的输入
@@ -138,9 +138,9 @@ public class CodeServiceImpl implements CodeService {
             // 编译C++代码
             Process compileProcess;
             if (System.getProperty("os.name").toLowerCase().contains("win")) {
-                compileProcess = new ProcessBuilder("g++", cppFile, "-o", exeFile).start();
+                compileProcess = new ProcessBuilder("g++","-std=c++11", cppFile, "-o", exeFile).start();
             } else {
-                compileProcess = new ProcessBuilder("g++", cppFile, "-o", exeFile).start();
+                compileProcess = new ProcessBuilder("g++","-std=c++11", cppFile, "-o", exeFile).start();
             }
 
             int compileExitCode = compileProcess.waitFor();
@@ -184,9 +184,9 @@ public class CodeServiceImpl implements CodeService {
             // 编译C代码
             Process compileProcess;
             if (System.getProperty("os.name").toLowerCase().contains("win")) {
-                compileProcess = new ProcessBuilder("gcc", cFile, "-o", exeFile).start();
+                compileProcess = new ProcessBuilder("gcc","-std=c++11", cFile, "-o", exeFile).start();
             } else {
-                compileProcess = new ProcessBuilder("gcc", cFile, "-o", exeFile).start();
+                compileProcess = new ProcessBuilder("gcc","-std=c++11", cFile, "-o", exeFile).start();
             }
 
             int compileExitCode = compileProcess.waitFor();

@@ -206,7 +206,7 @@ const runCode = async () => {
     }, (message) => {
       // 添加一个小延迟，让用户能看到加载完成的状态
       setTimeout(() => {
-        runError.value = '运行错误: ' + message;
+        runError.value = message;
         isRunning.value = false;
         messageApi.error('代码运行失败');
       }, 300);
@@ -402,20 +402,20 @@ onUnmounted(() => {
       <div class="absolute top-0 left-0 w-full h-full bg-gradient-radial from-white/2 via-transparent to-transparent"></div>
       <div class="absolute top-0 right-0 w-full h-full bg-gradient-radial from-white/2 via-transparent to-transparent"></div>
     </div>
-    
+
     <contextHolder/>
-    
+
     <!-- GitHub风格的顶部工具栏 -->
     <div class="flex justify-between items-center px-5 py-3 bg-gray-900 border-b border-gray-700 h-14 backdrop-blur-md relative z-10 shadow-lg">
       <div class="flex items-center flex-1">
         <div class="flex gap-1 bg-gray-800 p-1 rounded-xl border border-gray-700">
-          <div 
-            v-for="file in openFiles" 
-            :key="file.id"
-            @click="selectFile(file)"
-            :class="[
+          <div
+              v-for="file in openFiles"
+              :key="file.id"
+              @click="selectFile(file)"
+              :class="[
               'flex items-center gap-2 px-4 py-2 bg-transparent border-none cursor-pointer text-sm font-medium transition-all duration-300 rounded-lg text-gray-300 relative overflow-hidden',
-              { 
+              {
                 'bg-gray-800 text-white shadow-lg -translate-y-0.5 border border-gray-700': currentFile?.id === file.id,
                 'hover:text-white hover:-translate-y-0.5': currentFile?.id !== file.id
               }
@@ -433,7 +433,7 @@ onUnmounted(() => {
           </div>
         </div>
       </div>
-      
+
       <div class="flex items-center gap-4">
         <div class="language-selector">
           <select v-model="currentLanguage" @change="updateLanguage" class="px-4 py-2 border border-gray-700 rounded-lg bg-gray-800 text-white text-sm font-medium cursor-pointer transition-all duration-300 backdrop-blur-md hover:border-blue-500 hover:shadow-[0_0_0_3px_rgba(59,130,246,0.1)] focus:outline-none focus:border-blue-500 focus:shadow-[0_0_0_3px_rgba(59,130,246,0.2)]">
@@ -442,7 +442,7 @@ onUnmounted(() => {
             <option value="java">Java</option>
           </select>
         </div>
-        
+
         <div class="flex gap-3">
           <button @click="newFile" class="flex items-center gap-2 px-4 py-2.5 border-none rounded-lg cursor-pointer text-sm font-semibold transition-all duration-300 relative overflow-hidden backdrop-blur-md bg-gray-800 text-white border border-gray-700 hover:bg-gray-700 hover:border-gray-300 hover:-translate-y-0.5 hover:shadow-[0_8px_25px_rgba(0,0,0,0.7)]" title="新建文件">
             <svg class="w-4 h-4 transition-transform duration-300 group-hover:scale-110" viewBox="0 0 16 16" fill="currentColor">
@@ -451,14 +451,14 @@ onUnmounted(() => {
             </svg>
             新建
           </button>
-          
+
           <button @click="runCode" class="flex items-center gap-2 px-4 py-2.5 border-none rounded-lg cursor-pointer text-sm font-semibold transition-all duration-300 relative overflow-hidden backdrop-blur-md bg-gray-800 text-white border border-gray-700 hover:bg-gray-700 hover:border-gray-300 hover:-translate-y-0.5 hover:shadow-[0_8px_25px_rgba(0,0,0,0.7)]" title="运行代码">
             <svg class="w-4 h-4 transition-transform duration-300 group-hover:scale-110" viewBox="0 0 16 16" fill="currentColor">
               <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Zm4.879-2.773 4.264 2.559a.25.25 0 0 1 0 .428l-4.264 2.559A.25.25 0 0 1 6 10.559V5.442a.25.25 0 0 1 .379-.215Z"/>
             </svg>
             运行
           </button>
-          
+
           <button @click="downloadFile" class="flex items-center gap-2 px-4 py-2.5 border-none rounded-lg cursor-pointer text-sm font-semibold transition-all duration-300 relative overflow-hidden backdrop-blur-md bg-gray-800 text-white border border-gray-700 hover:bg-gray-700 hover:border-gray-300 hover:-translate-y-0.5 hover:shadow-[0_8px_25px_rgba(0,0,0,0.7)]" title="下载文件">
             <svg class="w-4 h-4 transition-transform duration-300 group-hover:scale-110" viewBox="0 0 16 16" fill="currentColor">
               <path d="M3.75 1.5a.25.25 0 0 0-.25.25v11.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25V6H9.75A1.75 1.75 0 0 1 8 4.25V1.5H3.75zm5.75.56v2.19c0 .138.112.25.25.25h2.19L9.5 2.06zM2 1.75C2 .784 2.784 0 3.75 0h5.086c.464 0 .909.184 1.237.513l3.414 3.414c.329.328.513.773.513 1.237v8.086A1.75 1.75 0 0 1 12.25 15h-8.5A1.75 1.75 0 0 1 2 13.25V1.75z"/>
@@ -480,13 +480,13 @@ onUnmounted(() => {
           </h3>
         </div>
         <div class="flex-1 py-3 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent hover:scrollbar-thumb-gray-300">
-          <div 
-            v-for="file in files" 
-            :key="file.id"
-            @click="selectFile(file)"
-            :class="[
+          <div
+              v-for="file in files"
+              :key="file.id"
+              @click="selectFile(file)"
+              :class="[
               'flex items-center gap-3 px-5 py-3 cursor-pointer transition-all duration-300 text-sm font-medium text-gray-300 relative mx-2 rounded-lg',
-              { 
+              {
                 'bg-gray-800 text-white shadow-lg translate-x-1 border border-gray-700': currentFile?.id === file.id,
                 'hover:bg-gray-800 hover:text-white hover:translate-x-1': currentFile?.id !== file.id
               }
@@ -499,11 +499,11 @@ onUnmounted(() => {
             <span class="file-name">{{ file.name }}</span>
           </div>
         </div>
-        
+
         <!-- 文件区域调整手柄 -->
-        <div 
-          class="absolute top-0 bottom-0 w-2 bg-transparent cursor-col-resize z-10 transition-all duration-200 flex items-center justify-center -right-1 hover:bg-white/5"
-          @mousedown="(event) => startResize('file', event)"
+        <div
+            class="absolute top-0 bottom-0 w-2 bg-transparent cursor-col-resize z-10 transition-all duration-200 flex items-center justify-center -right-1 hover:bg-white/5"
+            @mousedown="(event) => startResize('file', event)"
         >
           <div class="w-0.5 h-10 bg-gray-700 rounded-sm transition-all duration-200 hover:h-15 hover:w-0.75 hover:bg-gray-300"></div>
         </div>
@@ -518,17 +518,17 @@ onUnmounted(() => {
           </h3>
         </div>
         <div ref="editorContainer" class="flex-1 overflow-hidden bg-black rounded-b-xl mx-2 mb-2 shadow-[inset_0_2px_8px_rgba(0,0,0,0.5)] w-full min-w-0"></div>
-        
+
         <!-- 编辑器区域调整手柄 -->
-        <div 
-          class="absolute top-0 bottom-0 w-2 bg-transparent cursor-col-resize z-10 transition-all duration-200 flex items-center justify-center -left-1 hover:bg-white/5"
-          @mousedown="(event) => startResize('editor', event)"
+        <div
+            class="absolute top-0 bottom-0 w-2 bg-transparent cursor-col-resize z-10 transition-all duration-200 flex items-center justify-center -left-1 hover:bg-white/5"
+            @mousedown="(event) => startResize('editor', event)"
         >
           <div class="w-0.5 h-10 bg-gray-700 rounded-sm transition-all duration-200 hover:h-15 hover:w-0.75 hover:bg-gray-300"></div>
         </div>
-        <div 
-          class="absolute top-0 bottom-0 w-2 bg-transparent cursor-col-resize z-10 transition-all duration-200 flex items-center justify-center -right-1 hover:bg-white/5"
-          @mousedown="(event) => startResize('output', event)"
+        <div
+            class="absolute top-0 bottom-0 w-2 bg-transparent cursor-col-resize z-10 transition-all duration-200 flex items-center justify-center -right-1 hover:bg-white/5"
+            @mousedown="(event) => startResize('output', event)"
         >
           <div class="w-0.5 h-10 bg-gray-700 rounded-sm transition-all duration-200 hover:h-15 hover:w-0.75 hover:bg-gray-300"></div>
         </div>
@@ -542,7 +542,7 @@ onUnmounted(() => {
             输入输出
           </h3>
         </div>
-        
+
         <div class="flex-1 flex flex-col overflow-hidden p-2">
           <!-- 输入区域 -->
           <div class="flex-1 flex flex-col rounded-xl overflow-hidden bg-black shadow-lg mb-3">
@@ -552,13 +552,13 @@ onUnmounted(() => {
                 标准输入
               </h4>
             </div>
-            <textarea 
-              v-model="userInput" 
-              class="flex-1 bg-black text-white border-none outline-none p-4 font-mono text-xs leading-relaxed resize-none rounded-b-xl focus:shadow-[inset_0_0_0_2px_#3b82f6]"
-              placeholder="在这里输入程序需要的输入数据..."
+            <textarea
+                v-model="userInput"
+                class="flex-1 bg-black text-white border-none outline-none p-4 font-mono text-xs leading-relaxed resize-none rounded-b-xl focus:shadow-[inset_0_0_0_2px_#3b82f6]"
+                placeholder="在这里输入程序需要的输入数据..."
             ></textarea>
           </div>
-          
+
           <!-- 输出区域 -->
           <div class="flex-1 flex flex-col rounded-xl overflow-hidden bg-black shadow-lg">
             <div class="flex justify-between items-center px-5 py-3 bg-gray-800 border-b border-gray-700 relative">
@@ -572,7 +572,7 @@ onUnmounted(() => {
                 </svg>
               </button>
             </div>
-            
+
             <!-- 状态显示区域 -->
             <div class="px-4 pt-4">
               <div v-if="isRunning" class="flex flex-col gap-3 text-blue-400 text-sm font-medium p-4 bg-gray-800 rounded-lg border border-blue-500/30 shadow-lg mb-4">
@@ -590,12 +590,12 @@ onUnmounted(() => {
                   </div>
                   <span class="animate-pulse font-semibold">正在运行代码...</span>
                 </div>
-                
+
                 <!-- 进度条 -->
                 <div class="w-full bg-gray-700 rounded-full h-2 overflow-hidden">
                   <div class="h-full bg-gradient-to-r from-blue-500 to-blue-400 rounded-full animate-pulse" style="animation: progress 2s ease-in-out infinite;"></div>
                 </div>
-                
+
                 <!-- 状态提示 -->
                 <div class="flex items-center gap-2 text-xs text-blue-300">
                   <div class="w-2 h-2 bg-blue-400 rounded-full animate-bounce"></div>
@@ -620,7 +620,7 @@ onUnmounted(() => {
                 运行成功
               </div>
             </div>
-            
+
             <!-- 输出内容区域 -->
             <div class="flex-1 px-4 pb-4 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent hover:scrollbar-thumb-gray-300">
               <div v-if="runError" class="font-mono text-xs leading-relaxed">
@@ -638,11 +638,11 @@ onUnmounted(() => {
             </div>
           </div>
         </div>
-        
+
         <!-- 输出区域调整手柄 -->
-        <div 
-          class="absolute top-0 bottom-0 w-2 bg-transparent cursor-col-resize z-10 transition-all duration-200 flex items-center justify-center -left-1 hover:bg-white/5"
-          @mousedown="(event) => startResize('output', event)"
+        <div
+            class="absolute top-0 bottom-0 w-2 bg-transparent cursor-col-resize z-10 transition-all duration-200 flex items-center justify-center -left-1 hover:bg-white/5"
+            @mousedown="(event) => startResize('output', event)"
         >
           <div class="w-0.5 h-10 bg-gray-700 rounded-sm transition-all duration-200 hover:h-15 hover:w-0.75 hover:bg-gray-300"></div>
         </div>
@@ -834,13 +834,13 @@ body.resizing * {
     gap: 12px;
     padding: 16px 20px;
   }
-  
+
   .flex.items-center.flex-1,
   .flex.items-center.gap-4 {
     width: 100%;
     justify-content: space-between;
   }
-  
+
   .flex.gap-1.bg-gray-800 {
     overflow-x: auto;
     max-width: 250px;

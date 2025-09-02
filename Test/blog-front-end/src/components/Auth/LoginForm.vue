@@ -1,9 +1,10 @@
 <script setup>
 import {reactive, ref} from "vue";
 import { message } from 'ant-design-vue';
-import {post} from "@/net/index.js";
+import {get, post} from "@/net/index.js";
 import router from "@/router/index.js";
 import {useThemeStore} from "@/stores/theme.js";
+import {userUserStore} from "@/stores/userStore.js";
 
 const [messageApi, contextHolder] = message.useMessage();
 const themeStore = useThemeStore();
@@ -30,6 +31,10 @@ const loginHandler = () => {
   },(message,data) => {
     messageApi.success(message)
     localStorage.setItem("authToken",data);
+    get('api/user/information', {},
+        (message, data) => {
+          userUserStore().login(data);
+    })
     setTimeout(function() {
       router.push('/')
     }, 1000)

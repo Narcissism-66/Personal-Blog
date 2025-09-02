@@ -12,10 +12,10 @@ import router from './router'
 import axios from "axios";
 
 
-// axios.defaults.baseURL = 'https://www.fzpersonalweb.xyz'
-axios.defaults.baseURL = 'http://localhost:8080'
-// const BaseUrl='https://www.fzpersonalweb.xyz/';
-const BaseUrl='http://localhost:8080/';
+axios.defaults.baseURL = 'https://www.fzpersonalweb.xyz'
+// axios.defaults.baseURL = 'http://localhost:8080'
+const BaseUrl='https://www.fzpersonalweb.xyz/';
+// const BaseUrl='http://localhost:8080/';
 
 axios.defaults.withCredentials=true;
 //后端基础url 之后在请求时只用填写路径 Axios会自动以该url为基础添加路径

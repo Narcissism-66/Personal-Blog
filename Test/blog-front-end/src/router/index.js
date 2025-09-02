@@ -22,15 +22,6 @@ const router = createRouter({
       component: () => import( '../components/Auth/LoginForm.vue')
     },
     {
-      name:"分享",
-      path:'/share/:id',
-      meta:{
-        title:'分享',
-        // public: true,  // 标记为公开路由
-      },
-      component:()=>import('../views/Common/Share.vue')
-    },
-    {
       path: '/',
       name: 'Home',
       meta:{
@@ -38,6 +29,15 @@ const router = createRouter({
       },
       component: () => import( '../views/FrameWork.vue'),
       children:[
+        {
+          name:"分享",
+          path:'/share/:id',
+          meta:{
+            title:'分享',
+            // public: true,  // 标记为公开路由
+          },
+          component:()=>import('../views/Common/Share.vue')
+        },
         {
           name:"Edit",
           path:"/edit",
@@ -134,20 +134,29 @@ const router = createRouter({
 router.beforeEach((to, from, next)=>
 {
   const userStore = userUserStore()
-  const publicMap = new Map()
-  publicMap.set('/auth', 1)
-  publicMap.set('/share', 2)
-  publicMap.set('/error/401', 3)
-  publicMap.set('/error/404', 4)
-  // 检查要访问的路径是否是根路径
+  // 定义公开路由的白名单
+  const publicPaths = [
+    '/auth',
+    '/share',
+    '/',
+    '/Classification',
+    '/code-editor',
+    '/error/404'
+  ];
+
+  // 定义公开路由模式（使用正则表达式）
+  const publicPatterns = [
+    /^\/view\/[^\/]+$/, // 匹配 /view/后跟任何非斜杠字符
+    /^\/share\/[^\/]+$/ // 匹配 /share/后跟任何非斜杠字符
+  ];
+
+  const isPublicPath = publicPaths.includes(to.path) ||
+      publicPatterns.some(pattern => pattern.test(to.path));
+
 
   if (to.matched.length === 0) next('error/404')
-  // 检查是否是分享页面
-  if (to.path.startsWith('/share/')) {
-    next();
-    return;
-  }
-  if (!publicMap.has(to.path)) {
+
+  if (!isPublicPath) {
     // 不是访问根路径，检查用户状态
     const user = userStore.user; // 假设你的用户状态保存在Vuex的`user`状态中
     if (user === null) {
