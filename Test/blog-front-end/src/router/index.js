@@ -123,7 +123,7 @@ const router = createRouter({
           meta:{
             title:'代码编辑器',
           },
-          component:()=>import('../views/Common/CodeEditor.vue')
+          component:()=>import('../views/Common/Code.vue')
         }
       ]
     }
